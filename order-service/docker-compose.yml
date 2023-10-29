@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: order-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/demo
+      DB_USER: developer
+      DB_PASS: password
+
+  mysql:
+    image: 'mysql:latest'
+    container_name: mysqlOrderService
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: demo
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER -p$$MYSQL_PASSWORD" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
+
+volumes:
+  db:
