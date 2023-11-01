@@ -16,6 +16,7 @@
     <bytecodeTargetLevel>
       <module name="api-gateway-service" target="17" />
       <module name="demo" target="17" />
+      <module name="microservices-parent" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
